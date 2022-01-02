@@ -1,7 +1,9 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import React from 'react';
-
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const info = {
     opacity: 0,
@@ -66,6 +68,7 @@ const icon = {
 
 
 const Product = ({item}) => {
+    
     return (
         <Box sx={container}>
             <Box sx={circle} />
@@ -75,7 +78,9 @@ const Product = ({item}) => {
                     <ShoppingCartOutlined />
                 </Box>
                 <Box sx={icon}>
+                    <Link to={`/product/${item._id}`}>
                     <SearchOutlined />
+                    </Link>
                 </Box>
                 <Box sx={icon}>
                     <FavoriteBorderOutlined />

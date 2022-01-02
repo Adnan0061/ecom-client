@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
+import { Link } from 'react-router-dom';
 
 const container = {
     flex: 1, 
@@ -41,6 +42,7 @@ const button = {
 
 const CategoryItem = ({item}) => {
     return (
+        <Link to={`/products/${item.cat}`}>
         <Box sx={container}>
             <Image src={item.img} alt="" />
             <Box sx={info}>
@@ -48,6 +50,7 @@ const CategoryItem = ({item}) => {
                 <Button sx={button} variant='contained'>SHOP NOW</Button>
             </Box>
         </Box>
+        </Link>
     );
 };
 

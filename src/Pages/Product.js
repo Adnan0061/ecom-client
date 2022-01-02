@@ -1,10 +1,15 @@
 import { Add, Remove } from '@mui/icons-material';
 import { Box, Button, MenuItem, Select, Typography } from '@mui/material';
+import axios from 'axios';
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import Announcement from '../Component/Announcement';
 import Footer from '../Component/Footer';
 import Navbar from '../Component/Navbar';
 import NewsLetter from '../Component/NewsLetter';
+import {publicRequest} from '../requestMethods';
 
 
 const container = {}
@@ -57,6 +62,7 @@ const filterColor = {
     cursor: 'pointer',
 }
 
+
 const addContainer = {
     maxWidth: '420px',
     display: 'flex',
@@ -97,62 +103,78 @@ const btn = {
 }
 
 const Product = () => {
+    const {id} = useParams()
+    console.log(id)
+    const [product,setProduct] = useState({})
+    const [quantity, setQuantity] = useState(1)
+    const [color, setColor] = useState('')
+    const [size, setSize] = useState('')
+
+    console.log(color, size)
+    useEffect(()=>{
+        const getProduct = async () => {
+            try{
+                const res = await publicRequest.get('/products/find/'+id)
+                setProduct(res.data)
+            }catch(err){
+                console.log(err)
+            }
+        }
+        getProduct()
+    },[id])
+    console.log(product)
+
+    const handleQuantity = (type) => {
+        if ( type === 'dec' && quantity > 0 ) {
+            setQuantity(quantity - 1)
+        }
+        if ( type === 'inc' ) {
+            setQuantity(quantity + 1)
+        }
+    }
     return (
         <Box sx={container}>
             <Announcement />
             <Navbar />
-
+            
             <Box sx={wrapper}>
                 <Box sx={imgContainer}>
-                    <img style={image} src='https://i.ibb.co/S6qMxwr/jean.jpg' alt='' />
+                    <img style={image} src={product.img} alt='' />
                 </Box>
 
                 <Box sx={infoContainer}>
-                    <h2 style={{ fontWeight: 200, fontSize: '40px' }}>Denim Jumpsuit</h2>
-                    <Typography sx={{ margin: '20px 0px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                        venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-                        iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-                        tristique tortor pretium ut. Curabitur elit justo, consequat id
-                        condimentum ac, volutpat ornare.</Typography>
-                    <span style={{ fontWeight: 100, fontSize: '40px' }}>$ 20</span>
+                    <h2 style={{ fontWeight: 200, fontSize: '40px' }}>{product.title}</h2>
+                    <Typography sx={{ margin: '20px 0px' }}>{product.desc}</Typography>
+                    <span style={{ fontWeight: 100, fontSize: '40px' }}>$ {product.price}</span>
 
                     <Box sx={filterContainer}>
                         <Box sx={filter}>
                             <span style={filterTitle}>Color: </span>
-                            <Box sx={filterColor} style={{ backgroundColor: "black" }} />
-                            <Box sx={filterColor} style={{ backgroundColor: "darkblue" }} />
-                            <Box sx={filterColor} style={{ backgroundColor: "gray" }} />
+                            {
+                                product.color?.map(c => <Box key={c} onClick={()=>setColor(c)} sx={filterColor} style={{ backgroundColor: `${c}` }} />) 
+                            }
                         </Box>
                         <Box sx={filter}>
                             <span style={filterTitle}>Size: </span>
-                            {/* <select style={{p:'10px', ml: '10px'}}>
-                                <option>XS</option>
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
-                            </select> */}
                             <Select
-                                sx={{ ml: '10px', }}
-                                value='L'
+                                sx={{}}
                                 // onChange={handleChange}
-                                // displayEmpty
+                                onChange={e => setSize(e.target.value)}
+                                defaultValue={size}
                                 inputProps={{ 'aria-label': 'Without label' }}
                             >
-                                <MenuItem value='XS'>XS</MenuItem>
-                                <MenuItem value='S'>S</MenuItem>
-                                <MenuItem value='M'>M</MenuItem>
-                                <MenuItem value='L'>L</MenuItem>
-                                <MenuItem value='XL'>XL</MenuItem>
+                            {
+                                product.size?.map( s => <MenuItem key={s} value={s}>{s}</MenuItem>)
+                            }
                             </Select>
                         </Box>
                     </Box>
 
                     <Box sx={addContainer}>
                         <Box sx={amountContainer}>
-                            <Remove />
-                            <span style={amount}>1</span>
-                            <Add />
+                            <Remove onClick={()=>handleQuantity('dec')} />
+                            <span style={amount}>{quantity}</span>
+                            <Add onClick={()=>handleQuantity('inc')} />
                         </Box>
                         <Box>
                             <Button sx={btn}>ADD TO CART</Button>

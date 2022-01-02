@@ -5,18 +5,36 @@ import { Box,  MenuItem, Select, Typography } from '@mui/material';
 import Products from '../Component/Products';
 import NewsLetter from '../Component/NewsLetter';
 import Footer from '../Component/Footer';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const filterContainer = {
 
 }
 
 const ProductList = () => {
+    const location = useLocation()
+    const cat = location.pathname.split('/')[2].toLowerCase()
+
+    const [ filters, setFilters ] = useState({})
+    const [ sort, setSort ] = useState("newest")
+
+    const handleChange = (e) => {
+        const value = e.target.value
+        setFilters({
+            ...filters,
+            [e.target.name]: value.toLowerCase(),
+        })
+    }    
+    console.log(filters)
+    console.log(sort)
+
     return (
         <div>
             <Announcement />
             <Navbar />
 
-            <Typography sx={{ m: '20px', fontWeight: 600, fontSize: {xs: '18px', md: '36px'} }} variant='h4'>Dresses</Typography>
+            <Typography sx={{ m: '20px', fontWeight: 600, fontSize: {xs: '18px', md: '36px'} }} variant='h4'>{cat}</Typography>
             <Box sx={filterContainer}>
                 <Box sx={{
                     display: 'flex',
@@ -35,14 +53,14 @@ const ProductList = () => {
                         {/* <InputLabel id="size">Size</InputLabel> */}
                         <Select
                             sx={{ml: '10px', minWidth: '80px', }}
-                            
                             labelId="size"
                             id="size"
-                            // value={age}
-                            defaultValue='lg'
+                            defaultValue='size'
                             label="Size"
-                            // onChange={handleChange}
+                            name='size'
+                            onChange={handleChange}
                         >
+                            <MenuItem value='size' disabled>size</MenuItem>
                             <MenuItem value='sm'>sm</MenuItem>
                             <MenuItem value='md'>md</MenuItem>
                             <MenuItem value='lg'>lg</MenuItem>
@@ -56,13 +74,15 @@ const ProductList = () => {
                             labelId="color"
                             id="color"
                             // value={age}
-                            defaultValue='Green'
+                            defaultValue='Color'
                             label="Color"
-                        // onChange={handleChange}
+                            name='color'
+                            onChange={handleChange}
                         >
-                            <MenuItem value='Red'>Red</MenuItem>
-                            <MenuItem value='Blue'>Blue</MenuItem>
-                            <MenuItem value='Green'>Green</MenuItem>
+                            <MenuItem value='Color' disabled>Color</MenuItem>
+                            <MenuItem value='red'>red</MenuItem>
+                            <MenuItem value='blue'>blue</MenuItem>
+                            <MenuItem value='green'>green</MenuItem>
                         </Select>
 
                     </Box>
@@ -84,19 +104,20 @@ const ProductList = () => {
                             id="demo-simple-select"
                             // value={age}
                             defaultValue='Newest'
-                            label="Age"
-                            // onChange={handleChange}
+                            label="Filter"
+                            name='filter'
+                            onChange={e => setSort(e.target.value)}
                         >
-                            <MenuItem value='Newest'>Newest</MenuItem>
-                            <MenuItem value='Price (Ace)'>Price (Ace)</MenuItem>
-                            <MenuItem value='Price (Dec)'>Price (Dec)</MenuItem>
+                            <MenuItem value='newest'>Newest</MenuItem>
+                            <MenuItem value='ace'>Price (Ace)</MenuItem>
+                            <MenuItem value='dec'>Price (Dec)</MenuItem>
                         </Select>
 
                     </Box>
                 </Box>
             </Box>
 
-            <Products />
+            <Products cat={cat} filters={filters} sort={sort} />
             <NewsLetter />
             <Footer />
         </div>

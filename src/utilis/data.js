@@ -26,17 +26,21 @@ export const categories = [
     {
         id: 1,
         img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-        title: 1
+        title: 1,
+        cat: 'women'
+
     },
     {
         id: 2,
         img: 'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        title: 2
+        title: 2,
+        cat: 'coats'
     },
     {
         id: 3,
         img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-        title: 3
+        title: 3,
+        cat: 'jeans'
     },
 ];
 
