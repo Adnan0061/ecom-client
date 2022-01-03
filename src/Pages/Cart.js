@@ -180,7 +180,7 @@ const Cart = () => {
                 <Bottom>
                     <Info>
                       {cart.products.map( p => 
-                        <Product>
+                        <Product key={p._id}>
                             <ProductDetail>
                                 <Image src={p.img} />
                                 <Details>
