@@ -1,6 +1,8 @@
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge, Box, Card, Container, Typography } from '@mui/material';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 // import styled from 'styled-components'
 
 
@@ -45,13 +47,13 @@ const center = {
     flex: 1,
 }
 const logo = { 
-    fontSize: {xs:'24px', md:'32px'}, 
+    fontSize: {xs:'24px', md:'32px', lg: '40px'}, 
     fontWeight: 'bold',
     textAlign: { xs: 'left', md: 'center'}, 
     ml: {xs: '15px', md: '0'}
 }
 const right = {
-    flex: 2,
+    flex: 1,
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
@@ -63,6 +65,9 @@ const menuItem = {
     fontSize: { xs: '12px', md: '14px'}
 }
 const Navbar = () => {
+    const cart = useSelector(state => state.cart)
+    const quantity = useSelector(state => state.cart.quantity)
+    console.log(cart)
     return (
         <Box sx={container}>
             <Box sx={wrapper}>
@@ -75,21 +80,23 @@ const Navbar = () => {
                 </Box>
 
                 <Box sx={center}>
-                    <Typography variant='h1' sx={logo}>Bridge</Typography>
+                    <Link to="/" style={{textDecoration: 'none', color: 'black'}}><Typography variant='h1' sx={logo}>Bridge</Typography></Link>
                 </Box>
 
                 <Box sx={right}>
                     <Box sx={menuItem}>
-                        <Typography>Register</Typography>
+                        <Link to="/register" style={{textDecoration: 'none', color: 'black'}}><Typography sx={{}}>Register</Typography></Link>
                     </Box>
                     <Box sx={menuItem}>
-                        <Typography>Sign In</Typography>
+                    <Link to="/login" style={{textDecoration: 'none', color: 'black'}}><Typography sx={{}}>LogIn</Typography></Link>
                     </Box>
+                    <Link to="/cart">
                     <Box sx={menuItem}>
-                        <Badge badgeContent={4} color="secondary">
+                        <Badge badgeContent={quantity} color="secondary">
                             <ShoppingCartOutlined color="action" />
                         </Badge>
                     </Box>
+                    </Link>
                 </Box>
             </Box>
         </Box>

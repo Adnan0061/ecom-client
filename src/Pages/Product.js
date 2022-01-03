@@ -9,8 +9,9 @@ import Announcement from '../Component/Announcement';
 import Footer from '../Component/Footer';
 import Navbar from '../Component/Navbar';
 import NewsLetter from '../Component/NewsLetter';
+import { addProduct } from '../redux/cartRedux';
 import {publicRequest} from '../requestMethods';
-
+import { useDispatch } from 'react-redux';
 
 const container = {}
 
@@ -62,7 +63,6 @@ const filterColor = {
     cursor: 'pointer',
 }
 
-
 const addContainer = {
     maxWidth: '420px',
     display: 'flex',
@@ -109,8 +109,8 @@ const Product = () => {
     const [quantity, setQuantity] = useState(1)
     const [color, setColor] = useState('')
     const [size, setSize] = useState('')
+    const dispatch = useDispatch()
 
-    console.log(color, size)
     useEffect(()=>{
         const getProduct = async () => {
             try{
@@ -122,7 +122,6 @@ const Product = () => {
         }
         getProduct()
     },[id])
-    console.log(product)
 
     const handleQuantity = (type) => {
         if ( type === 'dec' && quantity > 0 ) {
@@ -131,6 +130,11 @@ const Product = () => {
         if ( type === 'inc' ) {
             setQuantity(quantity + 1)
         }
+    }
+    const handleClick = () => {
+        dispatch(
+            addProduct({ ...product, quantity, color, size, price:product.price, productTotal: product.price * quantity })
+        );
     }
     return (
         <Box sx={container}>
@@ -157,12 +161,13 @@ const Product = () => {
                         <Box sx={filter}>
                             <span style={filterTitle}>Size: </span>
                             <Select
-                                sx={{}}
+                                sx={{ml:2}}
                                 // onChange={handleChange}
                                 onChange={e => setSize(e.target.value)}
-                                defaultValue={size}
+                                defaultValue='choose'
                                 inputProps={{ 'aria-label': 'Without label' }}
                             >
+                                <MenuItem value='choose' disabled>Size</MenuItem>
                             {
                                 product.size?.map( s => <MenuItem key={s} value={s}>{s}</MenuItem>)
                             }
@@ -177,7 +182,7 @@ const Product = () => {
                             <Add onClick={()=>handleQuantity('inc')} />
                         </Box>
                         <Box>
-                            <Button sx={btn}>ADD TO CART</Button>
+                            <Button onClick={handleClick} sx={btn}>ADD TO CART</Button>
                         </Box>
                     </Box>
 
