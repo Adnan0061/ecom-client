@@ -20,7 +20,7 @@ const Products = ({cat, filters, sort}) => {
     useEffect(()=>{
         const getProducts = async () => {
             try{
-                const res = await axios.get(cat ? `http://localhost:5000/api/products?categories=${cat}` : 'http://localhost:5000/api/products');
+                const res = await axios.get(cat ? `https://aqueous-falls-89489.herokuapp.com/api/products?categories=${cat}` : 'https://aqueous-falls-89489.herokuapp.com/api/products');
                 setProducts(res.data);
             }catch(err){
                 console.log(err)
