@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Announcement from '../Component/Announcement';
 import Footer from '../Component/Footer';
 import Navbar from '../Component/Navbar';
 import NewsLetter from '../Component/NewsLetter';
 import styled from "styled-components";
 import { mobile, tab } from '../responsive';
-import { Add, Remove } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
+import { Add, DeleteForever, Remove } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProduct, deleteProduct } from '../redux/cartRedux';
 
 const Container = styled.div``;
 
@@ -72,6 +73,7 @@ const ProductDetail = styled.div`
 
 const Image = styled.img`
   width: 200px;
+  height: 200px
 `;
 
 const Details = styled.div`
@@ -114,17 +116,22 @@ const ProductAmount = styled.div`
   ${mobile({ margin: "5px 15px" })}
 `;
 
+const Delete = {
+  fontSize: '28px',
+  ml: '5px',
+}
+
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
   ${mobile({ marginBottom: "20px" })}
 `;
 
-const Hr = styled.hr`
-  background-color: #eee;
-  border: none;
-  height: 1px;
-`;
+// const Hr = styled.hr`
+//   background-color: #eee;
+//   border: none;
+//   height: 1px;
+// `;
 
 const Summary = styled.div`
   flex: 1;
@@ -161,6 +168,13 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+
+  // const makeFixed = (num) => {
+  //   console.log(num);
+  //   return num.toFixed(2)
+  // }
+
 
     return (
         <Container>
@@ -172,17 +186,17 @@ const Cart = () => {
                 <Top>
                     <TopButton>CONTINUE SHOPPING</TopButton>
                     <TopTexts>
-                        <TopText>Shopping Bag(2)</TopText>
+                        <TopText>Shopping Bag({cart.quantity})</TopText>
                         <TopText>Your Wishlist (0)</TopText>
                     </TopTexts>
                     <TopButton type="filled">CHECKOUT NOW</TopButton>
                 </Top>
                 <Bottom>
                     <Info>
-                      {cart.products.map( p => 
-                        <Product key={p._id}>
+                      {cart.products.map( (p,i) => 
+                        <Product key={[p._id, p.color, p.size]}>
                             <ProductDetail>
-                                <Image src={p.img} />
+                                <Image src={p.image} />
                                 <Details>
                                     <ProductName>
                                         <b>Product:</b> {p.title}
@@ -198,9 +212,16 @@ const Cart = () => {
                             </ProductDetail>
                             <PriceDetail>
                                 <ProductAmountContainer>
-                                    <Add />
-                                    <ProductAmount>{p.quantity}</ProductAmount>
-                                    <Remove />
+                                  {cart.products[i].quantity > 1 && 
+                                    <Remove  onClick={()=> {
+                                      dispatch(updateProduct([cart.products[i].quantity - 1, i]))
+                                    }}/>
+                                  }
+                                    <ProductAmount >{p.quantity}</ProductAmount>
+                                    <Add onClick={()=> {
+                                      dispatch(updateProduct([cart.products[i].quantity + 1, i]))
+                                    }} />
+                                    <DeleteForever sx={Delete} onClick={()=>dispatch(deleteProduct(i))} />
                                 </ProductAmountContainer>
                                 <ProductPrice>$ {p.productTotal}</ProductPrice>
                             </PriceDetail>

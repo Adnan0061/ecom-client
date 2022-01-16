@@ -3,44 +3,47 @@ export const sliderItems = [
         id: 1,
         title: 'winter collection',
         desc: 'React.js eCommerce app UI design full course. React shopping app UI project for beginners. React eCommerce website design from scratch.Support the channel',
-        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Free-Download.png'
+        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Free-Download.png',
+        bg: '#FFEBF2'
     },
     {
         id: 2,
-        title: 2,
-        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Image.png'
+        title: "Spring Collection",
+        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Image.png',
+        bg: '#EBF5FF'
     },
     {
         id: 3,
-        title: 3,
-        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Free-Download.png'
+        title: "Summer Collection",
+        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Free-Download.png',
+        bg: '#e9edc9'
     },
     {
         id: 4,
-        title: 4,
-        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Image.png'
+        title: "Kids Collection",
+        img: 'https://www.pngarts.com/files/3/Men-Jacket-PNG-Image.png',
+        bg: '#CFF2DC'
     },
 ]
 
 export const categories = [
     {
         id: 1,
-        img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-        title: 1,
-        cat: 'women'
-
+        img: 'https://www.pngarts.com/files/3/Long-Sleeve-Dress-Transparent.png',
+        title: 't-shirt',
+        cat: 't-shirt'
     },
     {
         id: 2,
-        img: 'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        title: 2,
-        cat: 'coats'
+        img: 'https://www.pngarts.com/files/3/Long-Sleeve-Dress-Transparent.png',
+        title: 'dress',
+        cat: 'dress'
     },
     {
         id: 3,
-        img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-        title: 3,
-        cat: 'jeans'
+        img: 'https://www.pngarts.com/files/3/Long-Sleeve-Dress-Transparent.png',
+        title: 'jacket',
+        cat: 'jacket'
     },
 ];
 

@@ -9,6 +9,7 @@ const container = {
     m: 1, 
     height: {xs:'100px', md:'60vh',},
     position: 'relative',
+    backgroundColor: 'lightGray',
 }
 const Image = styled.img`
   width: 100%;
@@ -29,15 +30,19 @@ const info = {
 }
 const title = {
     color: 'white', 
-    fontSize: '40px', 
+    fontSize: '42px', 
     mb: '20px'
 }
 const button = {
     border: 'none', 
     borderRadius: 0, 
     backgroundColor: 'white', 
-    color: 'gray', 
+    color: 'black', 
     fontWeight: '600',
+    '&:hover': {
+        backgroundColor: 'black',
+        color: 'white'
+    }
 }
 
 const CategoryItem = ({item}) => {
@@ -46,7 +51,7 @@ const CategoryItem = ({item}) => {
         <Box sx={container}>
             <Image src={item.img} alt="" />
             <Box sx={info}>
-                <Typography sx={title}>{item.title}</Typography>
+                <Typography sx={title}>{item.title.toUpperCase()}</Typography>
                 <Button sx={button} variant='contained'>SHOP NOW</Button>
             </Box>
         </Box>

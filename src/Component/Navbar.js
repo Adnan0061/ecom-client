@@ -1,8 +1,9 @@
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge, Box, Card, Container, Typography } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logOut } from "../redux/userRedux";
 // import styled from 'styled-components'
 
 
@@ -66,8 +67,16 @@ const menuItem = {
 }
 const Navbar = () => {
     const cart = useSelector(state => state.cart)
+    console.log(cart);
     const quantity = useSelector(state => state.cart.quantity)
-    console.log(cart)
+    let user = useSelector((state)=> state.user.currentUser)
+    const dispatch = useDispatch();
+    // console.log(cart)
+    const handleLogOut = () => {
+        dispatch(logOut());
+        console.log(user)
+    }
+    console.log(user)
     return (
         <Box sx={container}>
             <Box sx={wrapper}>
@@ -84,12 +93,21 @@ const Navbar = () => {
                 </Box>
 
                 <Box sx={right}>
+                    {
+                    user ? 
+                    <Box sx={menuItem}>
+                    <Typography onClick={handleLogOut}>Log Out</Typography>
+                    </Box>
+                    :
+                    <>
                     <Box sx={menuItem}>
                         <Link to="/register" style={{textDecoration: 'none', color: 'black'}}><Typography sx={{}}>Register</Typography></Link>
                     </Box>
                     <Box sx={menuItem}>
                     <Link to="/login" style={{textDecoration: 'none', color: 'black'}}><Typography sx={{}}>LogIn</Typography></Link>
                     </Box>
+                    </>
+                    }
                     <Link to="/cart">
                     <Box sx={menuItem}>
                         <Badge badgeContent={quantity} color="secondary">

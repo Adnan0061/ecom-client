@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {mobile, tab} from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -26,7 +27,6 @@ const Wrapper = styled.div`
   ${mobile({ width: "75%" })}
   ${tab({ width: "50%" })}
 `;
-//   ${mobile({ width: "75%" })}
 
 const Title = styled.h1`
   font-size: 24px;
@@ -59,7 +59,7 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const Links = styled.a`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
@@ -81,9 +81,9 @@ const Login = () => {
     login(dispatch, { username, password });
   };
 
-  console.log(username)
-  console.log(password)
-  console.log(isFetching, error)
+  // console.log(username)
+  // console.log(password)
+  // console.log(isFetching, error)
   return (
     <Container>
       <Wrapper>
@@ -92,9 +92,9 @@ const Login = () => {
           <Input onChange={e => setUsername(e.target.value)} placeholder="username" />
           <Input onChange={e => setPassword(e.target.value)} type='password' placeholder="password" />
           <Button  onClick={handleClick} disabled={isFetching}>LOGIN</Button>
-          {error && <Error>Something went wrong...</Error>}
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          {!error && <Error>Something went wrong...</Error>}
+          {/* <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link> */}
+          <Link to="/register"><Links>CREATE A NEW ACCOUNT</Links></Link>
         </Form>
       </Wrapper>
     </Container>

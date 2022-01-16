@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from '../Component/ProductCard';
 import { Link } from 'react-router-dom';
 
 const container = {
@@ -22,7 +22,7 @@ const button = {
     borderColor: 'black'
 }
 
-const Products = ({cat, filters, sort}) => {
+const ProductsAll = ({cat, filters, sort}) => {
 
     const [products, setProducts] = useState([])
     const [filterdProducts, setFilterdProducts] = useState([])
@@ -62,11 +62,7 @@ const Products = ({cat, filters, sort}) => {
     return (
         <>
         <Box sx={container}>
-            {cat ? 
-                filterdProducts.map(item => 
-                    <ProductCard key={item.id} item={item} />    
-                )
-                :
+            {
                 products.slice(0,8).map(item => 
                     <ProductCard key={item.id} item={item} />    
                 )
@@ -79,4 +75,4 @@ const Products = ({cat, filters, sort}) => {
     );
 };
 
-export default Products;
+export default ProductsAll;

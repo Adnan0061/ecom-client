@@ -1,10 +1,9 @@
 import { Add, Remove } from '@mui/icons-material';
 import { Box, Button, MenuItem, Select, Typography } from '@mui/material';
-import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Announcement from '../Component/Announcement';
 import Footer from '../Component/Footer';
 import Navbar from '../Component/Navbar';
@@ -18,21 +17,21 @@ const container = {}
 const wrapper = {
     padding: {xs:'10px', md: '50px'},
     display: 'flex',
-    flexDirection: {xs: 'column', md: 'row'}
+    flexDirection: {xs: 'column', md: 'row'},
+    gap: 5,
+    maxWidth: '1200px',
+    mx: 'auto',
     // ${ mobile({ padding: "10px", flexDirection: "column" })}
 }
-
 const imgContainer = {
     flex: 1,
 }
-
 const image = {
     width: '100%',
-    height: '90vh',
+    // height: '50%',
     objectFit: 'cover',
     // ${mobile({ height: "40vh" })}
 }
-
 const infoContainer = {
     flex: 1,
     px: {xs:'10px', md:'50px'},
@@ -62,7 +61,6 @@ const filterColor = {
     margin: '0px 5px',
     cursor: 'pointer',
 }
-
 const addContainer = {
     maxWidth: '420px',
     display: 'flex',
@@ -70,13 +68,11 @@ const addContainer = {
     justifyContent: 'space-between',
     //   ${mobile({ width: "100%" })}
 }
-
 const amountContainer = {
     display: 'flex',
     alignItems: 'center',
     fontWeight: 700,
 }
-
 const amount = {
     width: '30px',
     height: '30px',
@@ -87,7 +83,6 @@ const amount = {
     justifyContent: 'center',
     margin: '0px 5px',
 }
-
 const btn = {
     padding: '15px',
     // width: '100%',
@@ -103,13 +98,12 @@ const btn = {
 }
 
 const Product = () => {
-    const {id} = useParams()
-    console.log(id)
-    const [product,setProduct] = useState({})
-    const [quantity, setQuantity] = useState(1)
-    const [color, setColor] = useState('')
-    const [size, setSize] = useState('')
-    const dispatch = useDispatch()
+    const {id} = useParams();
+    const [product,setProduct] = useState({});
+    const [quantity, setQuantity] = useState(1);
+    const [color, setColor] = useState('');
+    const [size, setSize] = useState('');
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         const getProduct = async () => {
@@ -131,11 +125,13 @@ const Product = () => {
             setQuantity(quantity + 1)
         }
     }
+    
     const handleClick = () => {
         dispatch(
-            addProduct({ ...product, quantity, color, size, price:product.price, productTotal: product.price * quantity })
+            addProduct({ ...product, quantity, color, size, price:product.price, productTotal: (product.price * quantity).toFixed(2) })
         );
     }
+
     return (
         <Box sx={container}>
             <Announcement />
@@ -143,19 +139,19 @@ const Product = () => {
             
             <Box sx={wrapper}>
                 <Box sx={imgContainer}>
-                    <img style={image} src={product.img} alt='' />
+                    <img style={image} src={product.image} alt='' />
                 </Box>
 
                 <Box sx={infoContainer}>
                     <h2 style={{ fontWeight: 200, fontSize: '40px' }}>{product.title}</h2>
-                    <Typography sx={{ margin: '20px 0px' }}>{product.desc}</Typography>
+                    <Typography sx={{ margin: '20px 0px' }}>{product.description}</Typography>
                     <span style={{ fontWeight: 100, fontSize: '40px' }}>$ {product.price}</span>
 
                     <Box sx={filterContainer}>
                         <Box sx={filter}>
                             <span style={filterTitle}>Color: </span>
                             {
-                                product.color?.map(c => <Box key={c} onClick={()=>setColor(c)} sx={filterColor} style={{ backgroundColor: `${c}` }} />) 
+                                product.color && product.color?.map(c => <Box key={c} onClick={()=>setColor(c)} sx={filterColor} style={{ backgroundColor: `${c}` }} />) 
                             }
                         </Box>
                         <Box sx={filter}>

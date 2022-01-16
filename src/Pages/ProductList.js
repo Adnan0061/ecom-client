@@ -9,13 +9,16 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 const filterContainer = {
-
+    maxWidth: '1200px',
+    mx: 'auto',
+    mt: 1,
+    borderTop: '1px solid black'
 }
 
 const ProductList = () => {
     const location = useLocation()
-    const cat = location.pathname.split('/')[2].toLowerCase()
-
+    const cat = location.pathname.split('/')[2].toLowerCase() || null
+    console.log(cat);
     const [ filters, setFilters ] = useState({})
     const [ sort, setSort ] = useState("newest")
 
@@ -34,8 +37,8 @@ const ProductList = () => {
             <Announcement />
             <Navbar />
 
-            <Typography sx={{ m: '20px', fontWeight: 600, fontSize: {xs: '18px', md: '36px'} }} variant='h4'>{cat}</Typography>
             <Box sx={filterContainer}>
+                <Typography sx={{ m: '20px', fontWeight: 600, fontSize: {xs: '18px', md: '36px'} }} variant='h4'>{cat}</Typography>
                 <Box sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -61,11 +64,11 @@ const ProductList = () => {
                             onChange={handleChange}
                         >
                             <MenuItem value='size' disabled>size</MenuItem>
-                            <MenuItem value='sm'>sm</MenuItem>
-                            <MenuItem value='md'>md</MenuItem>
-                            <MenuItem value='lg'>lg</MenuItem>
-                            <MenuItem value='xl'>xl</MenuItem>
-                            <MenuItem value='2xl'>2xl</MenuItem>
+                            <MenuItem value='sm'>SM</MenuItem>
+                            <MenuItem value='md'>MD</MenuItem>
+                            <MenuItem value='lg'>LG</MenuItem>
+                            <MenuItem value='xl'>XL</MenuItem>
+                            <MenuItem value='2xl'>2XL</MenuItem>
                         </Select>
 
                         {/* <InputLabel id="color">Color</InputLabel> */}
@@ -80,9 +83,9 @@ const ProductList = () => {
                             onChange={handleChange}
                         >
                             <MenuItem value='Color' disabled>Color</MenuItem>
-                            <MenuItem value='red'>red</MenuItem>
-                            <MenuItem value='blue'>blue</MenuItem>
-                            <MenuItem value='green'>green</MenuItem>
+                            <MenuItem value='red'>Red</MenuItem>
+                            <MenuItem value='blue'>Blue</MenuItem>
+                            <MenuItem value='green'>Green</MenuItem>
                         </Select>
 
                     </Box>
@@ -103,7 +106,7 @@ const ProductList = () => {
                             labelId="filter"
                             id="demo-simple-select"
                             // value={age}
-                            defaultValue='Newest'
+                            defaultValue='newest'
                             label="Filter"
                             name='filter'
                             onChange={e => setSort(e.target.value)}

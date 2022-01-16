@@ -1,5 +1,10 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { publicRequest } from "../requestMethods";
 import { mobile, tab } from "../responsive";
+import { login } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -46,6 +51,13 @@ const Agreement = styled.span`
   margin: 20px 0px;
 `;
 
+const Links = styled.a`
+  margin: 5px 0px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
 const Button = styled.button`
   width: 40%;
   border: none;
@@ -54,24 +66,59 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
 `;
+const Error = styled.p`
+  color: red;
+`;
 
 const Register = () => {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password1, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+
+  const handleRegister = (e) => {  
+    e.preventDefault()
+    const registerUser = async () => {
+      try {
+        const user = { username, email, password1 }
+        await publicRequest.post('/auth/register', user)
+        .then(res => res.data)
+        // .then(res => console.log(res))
+        .then( data => {
+          console.log(data)
+          console.log(username, password1)
+          login(dispatch, { username, password: password1 });
+        })
+
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    if (password1 === password2){
+      registerUser()
+    }
+  }
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Input placeholder="confirm password" />
+          {/* <Input onChange={e => setUsername(e.target.value)} placeholder="name" />
+          <Input onChange={e => setUsername(e.target.value)} placeholder="last name" /> */}
+          <Input onChange={e => setUsername(e.target.value)} placeholder="username" />
+          <Input onChange={e => setEmail(e.target.value)} placeholder="email" />
+          <Input onChange={e => setPassword1(e.target.value)} type="password" placeholder="password" />
+          <Input onChange={e => setPassword2(e.target.value)} type="password" placeholder="confirm password" />
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>CREATE</Button>
+          <Button onClick={handleRegister}  disabled={isFetching}>CREATE</Button>
+          {/* {error && <Error>Something went wrong...</Error>} */}
+          <Link to="/login"><Links>Already registerd? Login</Links></Link>
         </Form>
       </Wrapper>
     </Container>

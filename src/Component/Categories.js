@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, } from '@mui/material';
+import { Box, Button, } from '@mui/material';
 import {categories} from '../utilis/data';
 import CategoryItem from './CategoryItem';
 
@@ -8,14 +8,18 @@ const container = {
     display: 'flex', 
     flexDirection: { xs: 'column', md: 'row'},
     justifyContent: 'space-between',
+    maxWidth: '1200px',
+    mx: 'auto',
 }
 
 const Categories = () => {
     return (
-        <Box sx={container}>
-            {categories.map(item => 
-                <CategoryItem key={item.id} item= {item}/>
-            )}
+        <Box>
+            <Box sx={container}>
+                {categories.map(item => 
+                    <CategoryItem key={item.id} item= {item}/>
+                )}
+            </Box>
         </Box>
     );
 };

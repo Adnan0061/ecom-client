@@ -1,9 +1,9 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const info = {
     opacity: 0,
@@ -38,7 +38,8 @@ const container = {
 }
 
 const image = {
-    height: '75%',
+    height: '100%',
+    width: '100%',
     zIndex: 2
 }
 
@@ -63,16 +64,18 @@ const icon = {
     '&:hover': {
         backgroundColor: '#e9f5f5',
         transform: 'scale(1.1)',
+    },
+    '&:active': {
+        backgroundColor: '#e9f5f5',
+        // transform: 'scale(1.1)',
     }
 }
 
-
-const Product = ({item}) => {
-    
+const ProductCard = ({item}) => {    
     return (
         <Box sx={container}>
             <Box sx={circle} />
-            <img style={image} src={item.img} alt='' />
+            <img style={image} src={item.image} alt='' />
             <Box sx={info}>
                 <Box sx={icon}>
                     <ShoppingCartOutlined />
@@ -90,4 +93,4 @@ const Product = ({item}) => {
     );
 };
 
-export default Product;
+export default ProductCard;

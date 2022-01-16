@@ -12,6 +12,7 @@ import Product from './Pages/Product';
 import ProductList from './Pages/ProductList';
 import Register from './Pages/Register';
 import { useSelector } from 'react-redux';
+import ProductsAll from './Pages/ProductsAll';
 
 function App() {
   const user = useSelector((state)=> state.user.currentUser)
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path="/products/:category">
             <ProductList />
+          </Route>
+          <Route path="/products/">
+            <ProductsAll />
           </Route>
           <Route path="/product/:id">
             <Product />

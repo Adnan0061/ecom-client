@@ -12,11 +12,12 @@ const container = {
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    mb: 5
 }
 const arrow = {
-    width: '50px',
-    height: '50px',
+    width: {xs:'35px', md:'50px'},
+    height: {xs:'35px', md:'50px'},
     backgroundColor: '#fff7f7',
     borderRadius: '50%',
     display: 'flex',
@@ -41,7 +42,7 @@ const slide = {
     alignItems: 'center',
 }
 const imgContainer = {
-    height: '100%',
+    height: '95%',
     flex: 1,
     display: {xs: 'none', md: 'block'}
 }
@@ -49,18 +50,29 @@ const infoContainer = {
     boxSizing: 'border-box',
     height: '100%',
     flex: 1,
-    m: '5%',
+    m: {xs: 0, md:'5%'},
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: {xs: 'center', md: 'flex-start'},
     // mx: {xs: '5%'}
 }
+const infoTitle = {
+    fontSize: {xs: '40px', md: '56px', lg: '70px'}
+}
+const infoDesc = { 
+    fontSize: {xs:'15px', md: '18px', lg:'20px'}, 
+    fontWeight: '500', 
+    my: '50px', 
+    px: {xs: '15px', md: 0},
+    letterSpacing: '3px', 
+    textAlign: {xs:'center', md: 'left'}
+}
 const button = {
     borderRadius: 0,
     color: 'black',
-    fontSize: '20px',
-    p: '10px',
+    fontSize: {xs:'15px', md: '18px', lg:'20px'},
+    p: '7px 10px',
     borderColor: 'black'
 }
 
@@ -84,14 +96,14 @@ const Slider = () => {
 
             <Box sx={wrapper} style={{transform: `translateX(${slideIndex * (-100)}vw)`, transition: 'all 1.5s ease'}}>
                 {sliderItems.map(item => 
-                    <Box key={item.id} sx={slide} style={{ backgroundColor: `${item.bg}`,}}>
+                    <Box key={item.id} sx={slide} style={{ backgroundColor: `${item.bg}`, }}>
                         <Box sx={imgContainer}>
                             <img style={{ height: '100%', mx: 'auto', width: '100%' }} src={item.img} alt="Italian Trulli" />
                         </Box>
 
                         <Box sx={infoContainer}>
-                            <Typography sx={{ fontSize: '70px' }} variant='h1'>{item.title}</Typography>
-                            <Typography sx={{ fontSize: '20px', fontWeight: '500', my: '50px', letterSpacing: '3px' }}>{item.desc}</Typography>
+                            <Typography sx={infoTitle} variant='h1'>{item.title}</Typography>
+                            <Typography sx={infoDesc}>{item.desc}</Typography>
                             <Button sx={button} variant="outlined">SHOP NOW</Button>
                         </Box>
                     </Box>
